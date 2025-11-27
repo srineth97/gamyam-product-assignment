@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Gamyam Product Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style>
+      :root {
+        --bg: #f3f4f6;
+        --sidebar-bg: #ffffff;
+        --primary: #10b981;
+        --primary-soft: rgba(16, 185, 129, 0.12);
+        --primary-dark: #059669;
+        --text-main: #111827;
+        --text-muted: #6b7280;
+        --border-subtle: #e5e7eb;
+        --card-bg: #ffffff;
+        --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.06);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        background: var(--bg);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      .app-shell {
+        display: flex;
+        width: 100%;
+      }
+
+      .sidebar {
+        width: 230px;
+        background: var(--sidebar-bg);
+        border-right: 1px solid var(--border-subtle);
+        padding: 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .main {
+        flex: 1;
+        padding: 14px 18px 40px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-logo {
+        width: 34px;
+        height: 34px;
+        border-radius: 12px;
+        background: radial-gradient(circle at 30% 20%, #a7f3d0, #047857);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 20px;
+      }
+
+      .nav {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .nav-item {
+        padding: 8px 10px;
+        font-size: 14px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--text-muted);
+        border-radius: 10px;
+        transition: 0.2s;
+        cursor: pointer;
+      }
+
+      .nav-item:hover {
+        background: #eef2ff;
+        transform: translateX(2px);
+        color: var(--text-main);
+      }
+
+      .nav-item.active {
+        background: var(--primary-soft);
+        font-weight: 600;
+        color: var(--primary-dark);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .toggle-group {
+        display: inline-flex;
+        background: #e5e7eb;
+        padding: 2px;
+        border-radius: 999px;
+      }
+
+      .toggle-btn {
+        border: none;
+        background: transparent;
+        padding: 4px 10px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .toggle-btn.active {
+        background: white;
+        box-shadow: 0px 1px 4px rgba(0,0,0,0.12);
+      }
+
+      .card {
+        background: white;
+        padding: 14px;
+        border-radius: 16px;
+        box-shadow: var(--shadow-soft);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+        gap: 12px;
+      }
+
+      .product-card {
+        background: white;
+        border-radius: 14px;
+        border: 1px solid #e5e7eb;
+        overflow: hidden;
+        transition: 0.2s;
+        cursor: pointer;
+      }
+
+      .product-card:hover {
+        transform: translateY(-4px) scale(1.01);
+        border-color: var(--primary-soft);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 115px;
+        object-fit: cover;
+      }
+
+      .product-body {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      /* Table List */
+      .list-view {
+        margin-top: 10px;
+        overflow-x: auto;
+      }
+
+      .list-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .list-table th {
+        background: #f3f4f6;
+        padding: 10px;
+        text-align: left;
+        color: #6b7280;
+        font-size: 12px;
+      }
+
+      .list-table td {
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+
+      /* Modal Common Style */
+      .detail-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.4);
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+      }
+
+      .detail-panel {
+        background: white;
+        width: 100%;
+        max-width: 480px;
+        padding: 20px;
+        border-radius: 20px 20px 0 0;
+      }
+
+      .input-box {
+        width: 100%;
+        padding: 8px 12px;
+        margin-top: 10px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+      }
+
+      .page-btn {
+        padding: 6px 16px;
+        border: 1px solid #ccc;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    </style>
+
+    <!-- React & Babel -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-logo">g</div>
+          <div>
+            <div>Gamyam Console</div>
+            <div style="font-size:12px;color:#6b7280;">Product management</div>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <div class="nav-item active"><span>🏠</span> Dashboard</div>
+
+          <!-- ADD PRODUCT BUTTON -->
+          <div class="nav-item" id="addProductBtn"><span>➕</span> Add Product</div>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div id="root"></div>
+      </main>
+    </div>
+
+    <script type="text/babel">
+
+      const { useState } = React;
+
+      /* --------------- ADD PRODUCT COMPONENT ---------------- */
+      function AddProduct({ onClose, onAdd }) {
+        const [name,setName] = useState("");
+        const [price,setPrice] = useState("");
+        const [category,setCategory] = useState("");
+        const [stock,setStock] = useState("");
+        const [imgFile,setImgFile] = useState("");  // 1.jpg style
+
+        function saveProduct() {
+          if(!name || !price || !category || !stock || !imgFile) {
+            alert("Fill all fields");
+            return;
+          }
+
+          onAdd({
+            id: Date.now(),
+            name,
+            price: Number(price),
+            category,
+            stock: Number(stock),
+            image: "./images/" + imgFile,   // <-- AUTO ADD PATH
+            description: "New Product",
+            tags: [],
+            isActive: true
+          });
+
+          onClose();
+        }
+
+        return (
+          <div className="detail-backdrop" onClick={onClose}>
+            <div className="detail-panel" onClick={(e)=>e.stopPropagation()}>
+              <h2>Add Product</h2>
+
+              <input className="input-box" placeholder="Product Name"
+                value={name} onChange={(e)=>setName(e.target.value)} />
+
+              <input className="input-box" placeholder="Price"
+                value={price} onChange={(e)=>setPrice(e.target.value)} />
+
+              <input className="input-box" placeholder="Category"
+                value={category} onChange={(e)=>setCategory(e.target.value)} />
+
+              <input className="input-box" placeholder="Stock"
+                value={stock} onChange={(e)=>setStock(e.target.value)} />
+
+              <input className="input-box" placeholder="Image (ex: 13.jpg)"
+                value={imgFile} onChange={(e)=>setImgFile(e.target.value)} />
+
+              <button className="page-btn" onClick={saveProduct}>
+                Add Product
+              </button>
+            </div>
+          </div>
+        );
+      }
+/* ---------------- PRODUCT GRID ---------------- */
+      function ProductGrid({ items, onOpenDetail }) {
+        return (
+          <div className="grid">
+            {items.map((p) => (
+              <div key={p.id} className="product-card" onClick={() => onOpenDetail(p)}>
+                <img src={p.image} className="product-image" />
+                <div className="product-body">
+                  <div style={{ fontSize: "12px", color: "#6b7280" }}>{p.category}</div>
+                  <div style={{ fontWeight: "600" }}>{p.name}</div>
+                  <div style={{ fontSize: "14px" }}>₹{p.price}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+
+      /* ---------------- LIST VIEW ---------------- */
+      function ListView({ items, onOpenDetail }) {
+        return (
+          <div className="list-view">
+            <table className="list-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Tags</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {items.map((p) => (
+                  <tr key={p.id} onClick={() => onOpenDetail(p)}>
+                    <td style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <img src={p.image} style={{ width: "50px", height: "50px", borderRadius: "10px", objectFit: "cover" }} />
+                      {p.name}
+                    </td>
+                    <td>{p.category}</td>
+                    <td>₹{p.price}</td>
+                    <td>{p.stock}</td>
+                    <td>{p.tags?.join(", ")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
+
+
+      /* ---------------- DETAIL MODAL ---------------- */
+      function ProductDetail({ product, onClose }) {
+        if (!product) return null;
+
+        return (
+          <div className="detail-backdrop" onClick={onClose}>
+            <div className="detail-panel" onClick={(e) => e.stopPropagation()}>
+              <h2>{product.name}</h2>
+
+              <img
+                src={product.image}
+                style={{ width: "100%", height: "240px", borderRadius: "12px", objectFit: "cover", marginTop: "10px" }}
+              />
+
+              <p style={{ marginTop: "10px", fontSize: "14px", color: "#555" }}>
+                {product.description}
+              </p>
+
+              <div style={{ marginTop: "10px", fontWeight: "600" }}>
+                ₹{product.price} • Stock: {product.stock}
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+
+      /* ---------------- MAIN APP ---------------- */
+      function App() {
+        const initialProducts = [
+          { id: 1, name: "Wireless Mouse", price: 799, category: "Electronics", stock: 25, description: "Ergonomic wireless mouse.", isActive: true, image: "./images/1.jpg", tags: [] },
+          { id: 2, name: "Bluetooth Headphones", price: 2499, category: "Electronics", stock: 10, description: "Noise-isolating headphones.", isActive: true, image: "./images/2.jpg", tags: [] },
+          { id: 3, name: "Office Chair", price: 5499, category: "Furniture", stock: 5, description: "Comfortable ergonomic office chair.", isActive: true, image: "./images/3.jpg", tags: [] },
+          { id: 4, name: "Coffee Mug", price: 299, category: "Kitchen", stock: 40, description: "Ceramic coffee mug.", isActive: true, image: "./images/4.jpg", tags: [] },
+          { id: 5, name: "Yoga Mat", price: 999, category: "Sports", stock: 12, description: "Eco-friendly yoga mat.", isActive: true, image: "./images/5.jpg", tags: [] },
+          { id: 6, name: "Laptop Stand", price: 1899, category: "Electronics", stock: 9, description: "Adjustable laptop stand.", isActive: true, image: "./images/6.jpg", tags: [] },
+          { id: 7, name: "Water Bottle", price: 499, category: "Sports", stock: 35, description: "Motivational water bottle.", isActive: true, image: "./images/7.jpg", tags: [] },
+          { id: 8, name: "Smartwatch", price: 7999, category: "Electronics", stock: 6, description: "Smartwatch with health tracking.", isActive: true, image: "./images/8.jpg", tags: [] },
+          { id: 9, name: "Gaming Keyboard", price: 3999, category: "Electronics", stock: 15, description: "RGB mechanical keyboard.", isActive: true, image: "./images/9.jpg", tags: [] },
+          { id: 10, name: "Desk Lamp", price: 1299, category: "Furniture", stock: 22, description: "LED desk lamp.", isActive: true, image: "./images/10.jpg", tags: [] },
+          { id: 11, name: "Running Shoes", price: 2999, category: "Sports", stock: 14, description: "Daily running shoes.", isActive: true, image: "./images/11.jpg", tags: [] },
+          { id: 12, name: "Smart TV", price: 24999, category: "Electronics", stock: 8, description: "43-inch 4K Android Smart TV.", isActive: true, image: "./images/12.jpg", tags: [] }
+        ];
+
+        const [products, setProducts] = useState(initialProducts);
+        const [view, setView] = useState("grid");
+        const [showAddForm, setShowAddForm] = useState(false);
+        const [detail, setDetail] = useState(null);
+
+        function addProduct(p) {
+          setProducts([...products, p]);
+        }
+
+        return (
+          <>
+            <div className="header-top">
+              <div>
+                <h2>Welcome back, Srineth</h2>
+              </div>
+
+              <div className="toggle-group">
+                <button
+                  className={"toggle-btn " + (view === "grid" ? "active" : "")}
+                  onClick={() => setView("grid")}
+                >
+                  Grid
+                </button>
+
+                <button
+                  className={"toggle-btn " + (view === "list" ? "active" : "")}
+                  onClick={() => setView("list")}
+                >
+                  List
+                </button>
+              </div>
+            </div>
+
+            <div className="card">
+              {view === "grid"
+                ? <ProductGrid items={products} onOpenDetail={setDetail} />
+                : <ListView items={products} onOpenDetail={setDetail} /> }
+            </div>
+
+            {detail && (
+              <ProductDetail product={detail} onClose={() => setDetail(null)} />
+            )}
+
+            {showAddForm && (
+              <AddProduct onClose={() => setShowAddForm(false)} onAdd={addProduct} />
+            )}
+
+            {/* Sidebar Button Listener */}
+            {setTimeout(() => {
+              const btn = document.getElementById("addProductBtn");
+              if (btn && !btn.onclick) btn.onclick = () => setShowAddForm(true);
+            }, 0)}
+          </>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+</body>
+</html>

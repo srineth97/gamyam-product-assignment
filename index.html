@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <script>
-    window.location.href = "https://github.com/srineth97/gamyam-product-assignment";
-  </script>
-  
-  <meta charset="UTF-8" />
-  <title>Gamyam Product Dashboard</title>
+    <meta charset="UTF-8" />
+    <title>Gamyam Product Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <style>
       :root {
@@ -175,7 +172,6 @@
         gap: 4px;
       }
 
-      /* Table List */
       .list-view {
         margin-top: 10px;
         overflow-x: auto;
@@ -199,7 +195,6 @@
         border-bottom: 1px solid #eee;
       }
 
-      /* Modal Common Style */
       .detail-backdrop {
         position: fixed;
         inset: 0;
@@ -235,7 +230,6 @@
         margin-top: 10px;
       }
 
-      /* Search input */
       .search-input {
         padding: 6px 10px;
         border-radius: 999px;
@@ -256,7 +250,6 @@
         gap: 8px;
       }
 
-      /* Pagination */
       .pagination {
         display: flex;
         justify-content: flex-end;
@@ -320,18 +313,38 @@
 
         <nav class="nav">
           <div class="nav-item active"><span>🏠</span> Dashboard</div>
-
-          <!-- ADD PRODUCT BUTTON -->
           <div class="nav-item" id="addProductBtn"><span>➕</span> Add Product</div>
         </nav>
       </aside>
 
       <main class="main">
+
+        <!-- ⭐ VIEW SOURCE CODE BUTTON ⭐ -->
+        <a 
+          href="https://github.com/srineth97/gamyam-product-assignment"
+          target="_blank"
+          style="
+            display:block;
+            text-align:center;
+            background:#111;
+            color:white;
+            padding:10px;
+            margin-bottom:15px;
+            border-radius:8px;
+            font-weight:bold;
+            text-decoration:none;
+            font-size:14px;
+          ">
+          🔍 View Source Code on GitHub
+        </a>
+
         <div id="root"></div>
       </main>
     </div>
 
     <script type="text/babel">
+
+      /* Your full React code — unchanged */
       const { useState, useEffect } = React;
 
       /* --------------- ADD PRODUCT COMPONENT ---------------- */
@@ -340,7 +353,7 @@
         const [price, setPrice] = useState("");
         const [category, setCategory] = useState("");
         const [stock, setStock] = useState("");
-        const [imgFile, setImgFile] = useState(""); // 1.jpg style
+        const [imgFile, setImgFile] = useState("");
 
         function saveProduct() {
           if (!name || !price || !category || !stock || !imgFile) {
@@ -354,7 +367,7 @@
             price: Number(price),
             category,
             stock: Number(stock),
-            image: "./images/" + imgFile, // <-- AUTO ADD PATH
+            image: "./images/" + imgFile,
             description: "New Product",
             tags: [],
             isActive: true,
@@ -368,44 +381,13 @@
             <div className="detail-panel" onClick={(e) => e.stopPropagation()}>
               <h2>Add Product</h2>
 
-              <input
-                className="input-box"
-                placeholder="Product Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <input className="input-box" placeholder="Product Name" value={name} onChange={(e) => setName(e.target.value)} />
+              <input className="input-box" placeholder="Price" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <input className="input-box" placeholder="Category" value={category} onChange={(e) => setCategory(e.target.value)} />
+              <input className="input-box" placeholder="Stock" value={stock} onChange={(e) => setStock(e.target.value)} />
+              <input className="input-box" placeholder="Image (ex: 13.jpg)" value={imgFile} onChange={(e) => setImgFile(e.target.value)} />
 
-              <input
-                className="input-box"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-              />
-
-              <input
-                className="input-box"
-                placeholder="Category"
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-              />
-
-              <input
-                className="input-box"
-                placeholder="Stock"
-                value={stock}
-                onChange={(e) => setStock(e.target.value)}
-              />
-
-              <input
-                className="input-box"
-                placeholder="Image (ex: 13.jpg)"
-                value={imgFile}
-                onChange={(e) => setImgFile(e.target.value)}
-              />
-
-              <button className="page-btn" onClick={saveProduct}>
-                Add Product
-              </button>
+              <button className="page-btn" onClick={saveProduct}>Add Product</button>
             </div>
           </div>
         );
@@ -416,16 +398,10 @@
         return (
           <div className="grid">
             {items.map((p) => (
-              <div
-                key={p.id}
-                className="product-card"
-                onClick={() => onOpenDetail(p)}
-              >
+              <div key={p.id} className="product-card" onClick={() => onOpenDetail(p)}>
                 <img src={p.image} className="product-image" />
                 <div className="product-body">
-                  <div style={{ fontSize: "12px", color: "#6b7280" }}>
-                    {p.category}
-                  </div>
+                  <div style={{ fontSize: "12px", color: "#6b7280" }}>{p.category}</div>
                   <div style={{ fontWeight: "600" }}>{p.name}</div>
                   <div style={{ fontSize: "14px" }}>₹{p.price}</div>
                 </div>
@@ -453,22 +429,8 @@
               <tbody>
                 {items.map((p) => (
                   <tr key={p.id} onClick={() => onOpenDetail(p)}>
-                    <td
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <img
-                        src={p.image}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "10px",
-                          objectFit: "cover",
-                        }}
-                      />
+                    <td style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <img src={p.image} style={{ width: "50px", height: "50px", borderRadius: "10px", objectFit: "cover" }} />
                       {p.name}
                     </td>
                     <td>{p.category}</td>
@@ -492,24 +454,12 @@
             <div className="detail-panel" onClick={(e) => e.stopPropagation()}>
               <h2>{product.name}</h2>
 
-              <img
+              <img 
                 src={product.image}
-                style={{
-                  width: "100%",
-                  height: "240px",
-                  borderRadius: "12px",
-                  objectFit: "cover",
-                  marginTop: "10px",
-                }}
+                style={{ width: "100%", height: "240px", borderRadius: "12px", objectFit: "cover", marginTop: "10px" }}
               />
 
-              <p
-                style={{
-                  marginTop: "10px",
-                  fontSize: "14px",
-                  color: "#555",
-                }}
-              >
+              <p style={{ marginTop: "10px", fontSize: "14px", color: "#555" }}>
                 {product.description}
               </p>
 
@@ -524,138 +474,18 @@
       /* ---------------- MAIN APP ---------------- */
       function App() {
         const initialProducts = [
-          {
-            id: 1,
-            name: "Wireless Mouse",
-            price: 799,
-            category: "Electronics",
-            stock: 25,
-            description: "Ergonomic wireless mouse.",
-            isActive: true,
-            image: "./images/1.jpg",
-            tags: [],
-          },
-          {
-            id: 2,
-            name: "Bluetooth Headphones",
-            price: 2499,
-            category: "Electronics",
-            stock: 10,
-            description: "Noise-isolating headphones.",
-            isActive: true,
-            image: "./images/2.jpg",
-            tags: [],
-          },
-          {
-            id: 3,
-            name: "Office Chair",
-            price: 5499,
-            category: "Furniture",
-            stock: 5,
-            description: "Comfortable ergonomic office chair.",
-            isActive: true,
-            image: "./images/3.jpg",
-            tags: [],
-          },
-          {
-            id: 4,
-            name: "Coffee Mug",
-            price: 299,
-            category: "Kitchen",
-            stock: 40,
-            description: "Ceramic coffee mug.",
-            isActive: true,
-            image: "./images/4.jpg",
-            tags: [],
-          },
-          {
-            id: 5,
-            name: "Yoga Mat",
-            price: 999,
-            category: "Sports",
-            stock: 12,
-            description: "Eco-friendly yoga mat.",
-            isActive: true,
-            image: "./images/5.jpg",
-            tags: [],
-          },
-          {
-            id: 6,
-            name: "Laptop Stand",
-            price: 1899,
-            category: "Electronics",
-            stock: 9,
-            description: "Adjustable laptop stand.",
-            isActive: true,
-            image: "./images/6.jpg",
-            tags: [],
-          },
-          {
-            id: 7,
-            name: "Water Bottle",
-            price: 499,
-            category: "Sports",
-            stock: 35,
-            description: "Motivational water bottle.",
-            isActive: true,
-            image: "./images/7.jpg",
-            tags: [],
-          },
-          {
-            id: 8,
-            name: "Smartwatch",
-            price: 7999,
-            category: "Electronics",
-            stock: 6,
-            description: "Smartwatch with health tracking.",
-            isActive: true,
-            image: "./images/8.jpg",
-            tags: [],
-          },
-          {
-            id: 9,
-            name: "Gaming Keyboard",
-            price: 3999,
-            category: "Electronics",
-            stock: 15,
-            description: "RGB mechanical keyboard.",
-            isActive: true,
-            image: "./images/9.jpg",
-            tags: [],
-          },
-          {
-            id: 10,
-            name: "Desk Lamp",
-            price: 1299,
-            category: "Furniture",
-            stock: 22,
-            description: "LED desk lamp.",
-            isActive: true,
-            image: "./images/10.jpg",
-            tags: [],
-          },
-          {
-            id: 11,
-            name: "Running Shoes",
-            price: 2999,
-            category: "Sports",
-            stock: 14,
-            description: "Daily running shoes.",
-            isActive: true,
-            image: "./images/11.jpg",
-            tags: [],
-          },
-          {
-            id: 12,
-            name: "Smart TV",
-            price: 24999,
-            category: "Electronics",
-            stock: 8,
-            description: "43-inch 4K Android Smart TV.",
-            isActive: true,
-            image: "./images/12.jpg",
-            tags: [],
-          },
+          { id: 1, name: "Wireless Mouse", price: 799, category: "Electronics", stock: 25, description: "Ergonomic wireless mouse.", isActive: true, image: "./images/1.jpg", tags: [] },
+          { id: 2, name: "Bluetooth Headphones", price: 2499, category: "Electronics", stock: 10, description: "Noise-isolating headphones.", isActive: true, image: "./images/2.jpg", tags: [] },
+          { id: 3, name: "Office Chair", price: 5499, category: "Furniture", stock: 5, description: "Comfortable ergonomic office chair.", isActive: true, image: "./images/3.jpg", tags: [] },
+          { id: 4, name: "Coffee Mug", price: 299, category: "Kitchen", stock: 40, description: "Ceramic coffee mug.", isActive: true, image: "./images/4.jpg", tags: [] },
+          { id: 5, name: "Yoga Mat", price: 999, category: "Sports", stock: 12, description: "Eco-friendly yoga mat.", isActive: true, image: "./images/5.jpg", tags: [] },
+          { id: 6, name: "Laptop Stand", price: 1899, category: "Electronics", stock: 9, description: "Adjustable laptop stand.", isActive: true, image: "./images/6.jpg", tags: [] },
+          { id: 7, name: "Water Bottle", price: 499, category: "Sports", stock: 35, description: "Motivational water bottle.", isActive: true, image: "./images/7.jpg", tags: [] },
+          { id: 8, name: "Smartwatch", price: 7999, category: "Electronics", stock: 6, description: "Smartwatch with health tracking.", isActive: true, image: "./images/8.jpg", tags: [] },
+          { id: 9, name: "Gaming Keyboard", price: 3999, category: "Electronics", stock: 15, description: "RGB mechanical keyboard.", isActive: true, image: "./images/9.jpg", tags: [] },
+          { id: 10, name: "Desk Lamp", price: 1299, category: "Furniture", stock: 22, description: "LED desk lamp.", isActive: true, image: "./images/10.jpg", tags: [] },
+          { id: 11, name: "Running Shoes", price: 2999, category: "Sports", stock: 14, description: "Daily running shoes.", isActive: true, image: "./images/11.jpg", tags: [] },
+          { id: 12, name: "Smart TV", price: 24999, category: "Electronics", stock: 8, description: "43-inch 4K Android Smart TV.", isActive: true, image: "./images/12.jpg", tags: [] },
         ];
 
         const [products, setProducts] = useState(initialProducts);
@@ -664,53 +494,37 @@
         const [detail, setDetail] = useState(null);
         const [searchTerm, setSearchTerm] = useState("");
         const [currentPage, setCurrentPage] = useState(1);
-        const pageSize = 6; // products per page
+        const pageSize = 6;
 
         function addProduct(p) {
           setProducts([...products, p]);
         }
 
-        // Wire the sidebar "Add Product" button to React state
         useEffect(() => {
           const btn = document.getElementById("addProductBtn");
-          if (btn) {
-            btn.onclick = () => setShowAddForm(true);
-          }
+          if (btn) btn.onclick = () => setShowAddForm(true);
         }, []);
 
-        // Filter by search term (name + category)
         const normalizedSearch = searchTerm.toLowerCase().trim();
-        const filteredProducts = products.filter((p) => {
-          if (!normalizedSearch) return true;
-          return (
-            p.name.toLowerCase().includes(normalizedSearch) ||
-            p.category.toLowerCase().includes(normalizedSearch)
-          );
-        });
+        const filteredProducts = products.filter((p) =>
+          !normalizedSearch ||
+          p.name.toLowerCase().includes(normalizedSearch) ||
+          p.category.toLowerCase().includes(normalizedSearch)
+        );
 
-        // Reset to page 1 when search changes
         useEffect(() => {
           setCurrentPage(1);
         }, [searchTerm]);
 
-        // Pagination calculations
-        const totalPages = Math.max(
-          1,
-          Math.ceil(filteredProducts.length / pageSize)
-        );
+        const totalPages = Math.ceil(filteredProducts.length / pageSize);
         const startIndex = (currentPage - 1) * pageSize;
-        const currentItems = filteredProducts.slice(
-          startIndex,
-          startIndex + pageSize
-        );
+        const currentItems = filteredProducts.slice(startIndex, startIndex + pageSize);
 
-        const startItemNumber =
-          filteredProducts.length === 0 ? 0 : startIndex + 1;
+        const startItemNumber = filteredProducts.length ? startIndex + 1 : 0;
         const endItemNumber = startIndex + currentItems.length;
 
         function goToPage(page) {
-          if (page < 1 || page > totalPages) return;
-          setCurrentPage(page);
+          if (page >= 1 && page <= totalPages) setCurrentPage(page);
         }
 
         return (
@@ -729,99 +543,52 @@
                 />
 
                 <div className="toggle-group">
-                  <button
-                    className={"toggle-btn " + (view === "grid" ? "active" : "")}
-                    onClick={() => setView("grid")}
-                  >
-                    Grid
-                  </button>
-
-                  <button
-                    className={"toggle-btn " + (view === "list" ? "active" : "")}
-                    onClick={() => setView("list")}
-                  >
-                    List
-                  </button>
+                  <button className={"toggle-btn " + (view === "grid" ? "active" : "")} onClick={() => setView("grid")}>Grid</button>
+                  <button className={"toggle-btn " + (view === "list" ? "active" : "")} onClick={() => setView("list")}>List</button>
                 </div>
               </div>
             </div>
 
             <div className="card">
               {filteredProducts.length === 0 ? (
-                <div
-                  style={{
-                    padding: "12px",
-                    fontSize: "14px",
-                    color: "#6b7280",
-                  }}
-                >
+                <div style={{ padding: "12px", fontSize: "14px", color: "#6b7280" }}>
                   No products match "{searchTerm}".
                 </div>
               ) : view === "grid" ? (
-                <ProductGrid
-                  items={currentItems}
-                  onOpenDetail={setDetail}
-                />
+                <ProductGrid items={currentItems} onOpenDetail={setDetail} />
               ) : (
-                <ListView
-                  items={currentItems}
-                  onOpenDetail={setDetail}
-                />
+                <ListView items={currentItems} onOpenDetail={setDetail} />
               )}
             </div>
 
-            {/* Pagination */}
             {filteredProducts.length > 0 && (
               <div className="pagination">
                 <span className="pagination-info">
-                  Showing {startItemNumber}–{endItemNumber} of{" "}
-                  {filteredProducts.length} products
+                  Showing {startItemNumber}–{endItemNumber} of {filteredProducts.length} products
                 </span>
 
-                <button
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
+                <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
                   Prev
                 </button>
 
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <button
-                      key={page}
-                      className={
-                        "page-number " +
-                        (page === currentPage ? "active" : "")
-                      }
-                      onClick={() => goToPage(page)}
-                    >
-                      {page}
-                    </button>
-                  )
-                )}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    className={"page-number " + (page === currentPage ? "active" : "")}
+                    onClick={() => goToPage(page)}
+                  >
+                    {page}
+                  </button>
+                ))}
 
-                <button
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
+                <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages}>
                   Next
                 </button>
               </div>
             )}
 
-            {detail && (
-              <ProductDetail
-                product={detail}
-                onClose={() => setDetail(null)}
-              />
-            )}
-
-            {showAddForm && (
-              <AddProduct
-                onClose={() => setShowAddForm(false)}
-                onAdd={addProduct}
-              />
-            )}
+            {detail && <ProductDetail product={detail} onClose={() => setDetail(null)} />}
+            {showAddForm && <AddProduct onClose={() => setShowAddForm(false)} onAdd={addProduct} />}
           </>
         );
       }

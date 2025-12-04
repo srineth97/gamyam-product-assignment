@@ -343,11 +343,8 @@
     </div>
 
     <script type="text/babel">
-
-      /* Your full React code — unchanged */
       const { useState, useEffect } = React;
 
-      /* --------------- ADD PRODUCT COMPONENT ---------------- */
       function AddProduct({ onClose, onAdd }) {
         const [name, setName] = useState("");
         const [price, setPrice] = useState("");
@@ -393,7 +390,6 @@
         );
       }
 
-      /* ---------------- PRODUCT GRID ---------------- */
       function ProductGrid({ items, onOpenDetail }) {
         return (
           <div className="grid">
@@ -411,7 +407,6 @@
         );
       }
 
-      /* ---------------- LIST VIEW ---------------- */
       function ListView({ items, onOpenDetail }) {
         return (
           <div className="list-view">
@@ -445,7 +440,6 @@
         );
       }
 
-      /* ---------------- DETAIL MODAL ---------------- */
       function ProductDetail({ product, onClose }) {
         if (!product) return null;
 
@@ -471,7 +465,6 @@
         );
       }
 
-      /* ---------------- MAIN APP ---------------- */
       function App() {
         const initialProducts = [
           { id: 1, name: "Wireless Mouse", price: 799, category: "Electronics", stock: 25, description: "Ergonomic wireless mouse.", isActive: true, image: "./images/1.jpg", tags: [] },
@@ -516,7 +509,7 @@
           setCurrentPage(1);
         }, [searchTerm]);
 
-        const totalPages = Math.ceil(filteredProducts.length / pageSize);
+        const totalPages = Math.ceil(filteredProducts.length / pageSize) || 1;
         const startIndex = (currentPage - 1) * pageSize;
         const currentItems = filteredProducts.slice(startIndex, startIndex + pageSize);
 
@@ -543,8 +536,12 @@
                 />
 
                 <div className="toggle-group">
-                  <button className={"toggle-btn " + (view === "grid" ? "active" : "")} onClick={() => setView("grid")}>Grid</button>
-                  <button className={"toggle-btn " + (view === "list" ? "active" : "")} onClick={() => setView("list")}>List</button>
+                  <button className={"toggle-btn " + (view === "grid" ? "active" : "")} onClick={() => setView("grid")}>
+                    Grid
+                  </button>
+                  <button className={"toggle-btn " + (view === "list" ? "active" : "")} onClick={() => setView("list")}>
+                    List
+                  </button>
                 </div>
               </div>
             </div>
